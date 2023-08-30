@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io' show Platform;
+
 import 'package:flutter/services.dart';
 
 class FullScreen {
@@ -9,7 +10,7 @@ class FullScreen {
   /// To enable fullscreen mode, pass the fullscreen mode as an argument the the enterFullScreen method of the FullScreen class.
   static Future<void> enterFullScreen(FullScreenMode fullScreenMode) async {
     if (Platform.isIOS) {
-      SystemChrome.setEnabledSystemUIOverlays([]);
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     } else if (Platform.isAndroid) {
       try {
         if (fullScreenMode == FullScreenMode.EMERSIVE) {
@@ -39,7 +40,7 @@ class FullScreen {
   /// Exit full screen
   static Future<void> exitFullScreen() async {
     if (Platform.isIOS) {
-      SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
     } else if (Platform.isAndroid) {
       try {
         await _channel.invokeMethod('exitFullScreen');
